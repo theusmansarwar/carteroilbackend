@@ -12,10 +12,8 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5176",
   "http://localhost:3001",
-  "https://aurafrontend.ztesting.site",
-  "https://digitalaura.se",
-  "https://auraadmin.ztesting.site",
-  "https://admin.digitalaura.se"
+  "https://carter.ztesting.site",
+  "https://carteradmin.ztesting.site",
  
 ];
 

@@ -30,7 +30,6 @@ const ProductSchema = new mongoose.Schema(
 
     subproducts: {
       description: { type: String },
-      name: { type: String },
       items: [{ type: mongoose.Schema.Types.ObjectId, ref: "SubProduct" }],
       published: { type: Boolean, default: false },
     },
@@ -40,7 +39,10 @@ const ProductSchema = new mongoose.Schema(
       description: { type: String },
       yearsOfExperience: { type: Number },
       items: [{ type: String }],
-      image: { type: String },
+      image1: { type: String },
+      image2: { type: String },
+      rating: { type: Number },
+      noOfRatings: { type: Number },
       published: { type: Boolean, default: false },
     },
 

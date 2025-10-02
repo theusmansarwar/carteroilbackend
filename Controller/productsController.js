@@ -131,7 +131,10 @@ const updateProduct = async (req, res) => {
         if (!parsed.title) missingFields.push({ name: "innovation.title", message: "Innovation title is required" });
         if (!parsed.description) missingFields.push({ name: "innovation.description", message: "Innovation description is required" });
         if (!parsed.yearsOfExperience) missingFields.push({ name: "innovation.yearsOfExperience", message: "Years of Experience is required" });
-        if (!parsed.image) missingFields.push({ name: "innovation.image", message: "Innovation image is required" });
+        if (!parsed.image1) missingFields.push({ name: "innovation.image1", message: "Innovation image1 is required" });
+        if (!parsed.image2) missingFields.push({ name: "innovation.image2", message: "Innovation image2 is required" });
+         if (!parsed.rating) missingFields.push({ name: "innovation.rating", message: "Innovation rating is required" });
+        if (!parsed.noOfRatings) missingFields.push({ name: "innovation.noOfRatings", message: "Innovation noOfRatings is required" });
       }
     }
 
@@ -154,6 +157,42 @@ const updateProduct = async (req, res) => {
     product.published = isPublished;
 
     // (merge faqs, benefits, subproducts, innovation as you already did)
+
+    // Merge FAQs
+if (faqs) {
+  const parsed = typeof faqs === "string" ? JSON.parse(faqs) : faqs;
+  product.faqs = {
+    ...product.faqs.toObject(),
+    ...parsed,
+  };
+}
+
+// Merge Benefits
+if (benefits) {
+  const parsed = typeof benefits === "string" ? JSON.parse(benefits) : benefits;
+  product.benefits = {
+    ...product.benefits.toObject(),
+    ...parsed,
+  };
+}
+
+// Merge Subproducts
+if (subproducts) {
+  const parsed = typeof subproducts === "string" ? JSON.parse(subproducts) : subproducts;
+  product.subproducts = {
+    ...product.subproducts.toObject(),
+    ...parsed,
+  };
+}
+
+// Merge Innovation
+if (innovation) {
+  const parsed = typeof innovation === "string" ? JSON.parse(innovation) : innovation;
+  product.innovation = {
+    ...product.innovation.toObject(),
+    ...parsed,
+  };
+}
 
     await product.save();
 

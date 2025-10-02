@@ -77,6 +77,7 @@ const updateProduct = async (req, res) => {
       benefits,
       subproducts,
       innovation,
+      performance
     } = req.body;
 
     const product = await Product.findById(id);
@@ -113,6 +114,13 @@ const updateProduct = async (req, res) => {
         if (!parsed.description) missingFields.push({ name: "benefits.description", message: "Benefits description is required" });
         if (!parsed.image1) missingFields.push({ name: "benefits.image1", message: "Benefits image1 is required" });
         if (!parsed.image2) missingFields.push({ name: "benefits.image2", message: "Benefits image2 is required" });
+      }
+    }
+     if (performance) {
+      const parsed = typeof performance === "string" ? JSON.parse(performance) : performance;
+      if (parsed.published === true || parsed.published === "true") {
+        if (!parsed.description) missingFields.push({ name: "performance.description", message: "Performance description is required" });
+        if (!parsed.title) missingFields.push({ name: "performance.title", message: "Performance title is required" });
       }
     }
 
@@ -172,6 +180,13 @@ if (benefits) {
   const parsed = typeof benefits === "string" ? JSON.parse(benefits) : benefits;
   product.benefits = {
     ...product.benefits.toObject(),
+    ...parsed,
+  };
+}
+if (performance) {
+  const parsed = typeof performance === "string" ? JSON.parse(performance) : performance;
+  product.performance = {
+    ...product.performance.toObject(),
     ...parsed,
   };
 }

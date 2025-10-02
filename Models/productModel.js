@@ -33,6 +33,11 @@ const ProductSchema = new mongoose.Schema(
       items: [{ type: mongoose.Schema.Types.ObjectId, ref: "SubProduct" }],
       published: { type: Boolean, default: false },
     },
+    performance: {
+      title: { type: String },
+      description: { type: String },
+      published: { type: Boolean, default: false },
+    },
 
     innovation: {
       title: { type: String },

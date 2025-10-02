@@ -3,9 +3,7 @@ const {sendEmailToCompany} = require("./emailverification");
 const axios = require('axios');
 
 const CreateLeads = async (req, res) => {
-  const { name, lastname, email, phone, subject, query, 
-    // captchaToken,
-    budget } = req.body;
+  const { name, lastname, email, phone, subject, query } = req.body;
   const missingFields = [];
 
   // Validate required fields
@@ -23,12 +21,7 @@ const CreateLeads = async (req, res) => {
   }
   if (!subject) missingFields.push({ name: "subject", message: "Subject field is required" });
   if (!query) missingFields.push({ name: "query", message: "Query field is required" });
-  // if (!captchaToken) {
-  //   missingFields.push({ name: "captchaToken", message: "Please fill Captcha" });
-  // }
-  if (subject?.toLowerCase() === "penetration testing" && !budget) {
-    missingFields.push({ name: "budget", message: "Budget field is required for Penetration Testing" });
-  }
+
 
 
   if (missingFields.length > 0) {
@@ -69,11 +62,10 @@ const CreateLeads = async (req, res) => {
       email,
       phone,
       subject,
-      query,
-      budget
+      query
     });
 
-    sendEmailToCompany({ email, name, lastname, subject, phone, query ,budget}, res);
+    const emailres= sendEmailToCompany({ email, name, lastname, subject, phone, query }, res);
 
     if (!LeadsCreated) {
       return res.status(500).json({
@@ -84,6 +76,7 @@ const CreateLeads = async (req, res) => {
 
     return res.status(201).json({
       status: 201,
+      emailres,
       message: "Request Sent Successfully",
     });
   } catch (err) {

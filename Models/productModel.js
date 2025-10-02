@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema(
     short_description: { type: String },
     metaDescription: { type: String, maxlength: 160, trim: true },
     slug: { type: String, unique: true },
-    icon: { type: String },
+    bgImage: { type: String },
 
     faqs: {
       title: { type: String },
@@ -30,6 +30,7 @@ const ProductSchema = new mongoose.Schema(
 
     subproducts: {
       description: { type: String },
+      name: { type: String },
       items: [{ type: mongoose.Schema.Types.ObjectId, ref: "SubProduct" }],
       published: { type: Boolean, default: false },
     },

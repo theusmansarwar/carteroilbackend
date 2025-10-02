@@ -10,7 +10,7 @@ const createProduct = async (req, res) => {
       short_description,
       metaDescription,
       slug,
-      icon,
+      bgImage,
       published,
     } = req.body;
 
@@ -24,7 +24,7 @@ const createProduct = async (req, res) => {
       if (!short_description) missingFields.push({ name: "short_description", message: "Short description is required" });
       if (!metaDescription) missingFields.push({ name: "metaDescription", message: "Meta description is required" });
       if (!slug) missingFields.push({ name: "slug", message: "Slug is required" });
-      if (!icon) missingFields.push({ name: "icon", message: "Icon is required" });
+      if (!bgImage) missingFields.push({ name: "bgImage", message: "bgImage is required" });
     }
 
     if (missingFields.length > 0) {
@@ -49,7 +49,7 @@ const createProduct = async (req, res) => {
       short_description,
       metaDescription,
       slug,
-      icon,
+      bgImage,
     
       published: isPublished,
     });
@@ -71,7 +71,7 @@ const updateProduct = async (req, res) => {
       short_description,
       metaDescription,
       slug,
-      icon,
+      bgImage,
       published,
       faqs,
       benefits,
@@ -93,7 +93,7 @@ const updateProduct = async (req, res) => {
       if (!description) missingFields.push({ name: "description", message: "Description is required" });
       if (!metaDescription) missingFields.push({ name: "metaDescription", message: "Meta description is required" });
       if (!slug) missingFields.push({ name: "slug", message: "Slug is required" });
-      if (!icon) missingFields.push({ name: "icon", message: "Icon is required" });
+      if (!bgImage) missingFields.push({ name: "bgImage", message: "bgImage is required" });
     }
 
     // 🔍 Validate FAQs
@@ -150,7 +150,7 @@ const updateProduct = async (req, res) => {
     product.short_description = short_description ?? product.short_description;
     product.metaDescription = metaDescription ?? product.metaDescription;
     product.slug = slug ?? product.slug;
-    product.icon = icon ?? product.icon;
+    product.bgImage = bgImage ?? product.bgImage;
     product.published = isPublished;
 
     // (merge faqs, benefits, subproducts, innovation as you already did)
@@ -210,7 +210,7 @@ const listProducts = async (req, res) => {
     if (title) filter.title = { $regex: title, $options: "i" };
 
     const products = await Product.find(filter)
-      .select("title short_description slug icon createdAt")
+      .select("title short_description slug bgImage createdAt")
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip((page - 1) * limit);
@@ -252,8 +252,8 @@ const getProductBySlug = async (req, res) => {
   try {
     const product = await Product.findOne({ slug: req.params.slug, published: true })
       .populate("faqs.items", "question answer")
-      .populate("benefits.items", "title description icon")
-      .populate("subproducts.items", "name description image");
+      .populate("benefits.items", "title description bgImage")
+      .populate("subproducts.items", "title description image");
 
     if (!product) return res.status(404).json({ message: "Product not found" });
 

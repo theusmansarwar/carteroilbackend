@@ -11,6 +11,7 @@ const createProduct = async (req, res) => {
       metaDescription,
       slug,
       bgImage,
+      icon,
       published,
     } = req.body;
 
@@ -25,6 +26,7 @@ const createProduct = async (req, res) => {
       if (!metaDescription) missingFields.push({ name: "metaDescription", message: "Meta description is required" });
       if (!slug) missingFields.push({ name: "slug", message: "Slug is required" });
       if (!bgImage) missingFields.push({ name: "bgImage", message: "bgImage is required" });
+      if (!icon) missingFields.push({ name: "icon", message: "icon is required" });
     }
 
     if (missingFields.length > 0) {
@@ -50,6 +52,7 @@ const createProduct = async (req, res) => {
       metaDescription,
       slug,
       bgImage,
+      icon,
     
       published: isPublished,
     });
@@ -77,7 +80,8 @@ const updateProduct = async (req, res) => {
       benefits,
       subproducts,
       innovation,
-      performance
+      performance,
+      icon
     } = req.body;
 
     const product = await Product.findById(id);
@@ -95,6 +99,7 @@ const updateProduct = async (req, res) => {
       if (!metaDescription) missingFields.push({ name: "metaDescription", message: "Meta description is required" });
       if (!slug) missingFields.push({ name: "slug", message: "Slug is required" });
       if (!bgImage) missingFields.push({ name: "bgImage", message: "bgImage is required" });
+      if (!icon) missingFields.push({ name: "icon", message: "icon is required" });
     }
 
     // 🔍 Validate FAQs
@@ -162,6 +167,8 @@ const updateProduct = async (req, res) => {
     product.metaDescription = metaDescription ?? product.metaDescription;
     product.slug = slug ?? product.slug;
     product.bgImage = bgImage ?? product.bgImage;
+    
+    product.icon = icon ?? product.icon;
     product.published = isPublished;
 
     // (merge faqs, benefits, subproducts, innovation as you already did)
@@ -264,8 +271,7 @@ const listProducts = async (req, res) => {
     if (title) filter.title = { $regex: title, $options: "i" };
 
     const products = await Product.find(filter)
-      .select("title short_description slug bgImage createdAt")
-      .sort({ createdAt: -1 })
+      .select("title short_description slug bgImage createdAt icon")
       .limit(limit)
       .skip((page - 1) * limit);
 

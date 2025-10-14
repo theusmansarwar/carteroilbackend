@@ -11,7 +11,7 @@ const ProductSchema = new mongoose.Schema(
     metaDescription: { type: String, maxlength: 160, trim: true },
     slug: { type: String, unique: true },
     bgImage: { type: String },
-
+    icon: { type: String },
     faqs: {
       title: { type: String },
       description: { type: String },

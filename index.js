@@ -6,7 +6,7 @@ const path = require("path");
 const connectDB = require("./utils/db");
 
 const app = express();
-const port = process.env.PORT || 4000;
+    
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
@@ -42,6 +42,7 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
 app.use(express.json());
+const port = process.env.PORT||5000;
 const userRouter = require("./Routes/userRoutes");
 
 const testimonialRouter = require("./Routes/testimonialRoutes");
@@ -79,7 +80,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 50 * 1024 * 1024 },
+  limits: { fileSize: 200 * 1024 * 1024 },
 });
 
 // after all routes

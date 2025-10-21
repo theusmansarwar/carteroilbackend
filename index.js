@@ -6,7 +6,7 @@ const path = require("path");
 const connectDB = require("./utils/db");
 
 const app = express();
-    
+const port = process.env.PORT || 4000;
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
@@ -42,7 +42,6 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
 app.use(express.json());
-const port = process.env.PORT||5000;
 const userRouter = require("./Routes/userRoutes");
 
 const testimonialRouter = require("./Routes/testimonialRoutes");
@@ -78,41 +77,46 @@ const storage = multer.diskStorage({
   },
 });
 
-
-const fileFilter = (req, file, cb) => {
-  cb(null, true);
-};
-
-// ✅ Define the upload middleware (no field name restriction)
 const upload = multer({
   storage,
-  fileFilter,
-  limits: { fileSize: 200 * 1024 * 1024 }, // 200 MB
-}).any(); // <— accepts any field name and multiple files
+  limits: { fileSize: 50 * 1024 * 1024 },
+});
 
-// ✅ Route: keep name /upload-image
-app.post("/upload-image", (req, res) => {
-  upload(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      return res.status(400).json({ isSuccess: false, message: err.message });
-    } else if (err) {
-      return res.status(500).json({ isSuccess: false, message: err.message });
-    }
+// after all routes
+app.use((err, req, res, next) => {
+  console.error("Error middleware caught:", err);
 
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ isSuccess: false, message: "No file uploaded" });
-    }
-
-    const uploadedFiles = req.files.map((f) => ({
-      originalname: f.originalname,
-      file: `/uploads/${f.filename}`,
-    }));
-
-    res.json({
-      isSuccess: true,
-      message: "File(s) uploaded successfully",
-      files: uploadedFiles,
+  // Multer file size error
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return res.status(413).json({
+      status: 413,
+      message: "File too large! Please upload smaller files.",
     });
+  }
+
+  // Body size exceeded (express / nginx)
+  if (err.status === 413) {
+    return res.status(413).json({
+      status: 413,
+      message: "Request entity too large! Please reduce file size or request payload.",
+    });
+  }
+
+  res.status(err.status || 500).json({
+    status: err.status || 500,
+    message: err.message || "Internal Server Error",
+  });
+});
+
+app.post("/upload-image", upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+  const fileUrl = `/uploads/${req.file.filename}`;
+  res.json({
+    file:fileUrl,
+    isSuccess: true,
+    messages: ["Image uploaded successfully"],
   });
 });
 

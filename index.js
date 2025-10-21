@@ -78,8 +78,12 @@ const storage = multer.diskStorage({
   },
 });
 
+const fileFilter = (req, file, cb) => {
+  cb(null, true);
+};
 const upload = multer({
   storage,
+  fileFilter,
   limits: { fileSize: 200 * 1024 * 1024 },
 });
 

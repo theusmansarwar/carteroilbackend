@@ -23,8 +23,6 @@ const fileFilter = (req, file, cb) => {
   if (
     file.mimetype.startsWith("image/") ||
     file.mimetype === "application/pdf" ||
-    file.mimetype === "application/vnd.ms-powerpoint" || // for .ppt
-    file.mimetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
     file.mimetype === "application/msword" ||
     file.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   ) {

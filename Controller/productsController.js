@@ -146,12 +146,9 @@ const updateProduct = async (req, res) => {
         if (!parsed.yearsOfExperience) missingFields.push({ name: "innovation.yearsOfExperience", message: "Years of Experience is required" });
         if (!parsed.image1) missingFields.push({ name: "innovation.image1", message: "Innovation image1 is required" });
         if (!parsed.image2) missingFields.push({ name: "innovation.image2", message: "Innovation image2 is required" });
-         if (!parsed.rating) missingFields.push({ name: "innovation.rating", message: "Innovation rating is required" });
-        if (!parsed.noOfRatings) missingFields.push({ name: "innovation.noOfRatings", message: "Innovation noOfRatings is required" });
-      }
+         }
     }
 
-    // ❌ Stop if something is missing
     if (missingFields.length > 0) {
       return res.status(400).json({
         status: 400,

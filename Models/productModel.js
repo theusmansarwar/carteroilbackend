@@ -46,8 +46,6 @@ const ProductSchema = new mongoose.Schema(
       items: [{ type: String }],
       image1: { type: String },
       image2: { type: String },
-      rating: { type: Number },
-      noOfRatings: { type: Number },
       published: { type: Boolean, default: false },
     },
 

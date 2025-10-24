@@ -12,8 +12,8 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5176",
   "http://localhost:3001",
-  "https://carter.ztesting.site",
-  "https://carteradmin.ztesting.site",
+  "https://admin.carteroilusa.com",
+  "https://carteroilusa.com",
  
 ];
 

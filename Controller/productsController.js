@@ -8,6 +8,7 @@ const createProduct = async (req, res) => {
       title,
       description,
       short_description,
+      metaTitle,
       metaDescription,
       slug,
       bgImage,
@@ -23,6 +24,7 @@ const createProduct = async (req, res) => {
       if (!title) missingFields.push({ name: "title", message: "Title is required" });
       if (!description) missingFields.push({ name: "description", message: "Description is required" });
       if (!short_description) missingFields.push({ name: "short_description", message: "Short description is required" });
+       if (!metaTitle) missingFields.push({ name: "metaTitle", message: "Meta title is required" });
       if (!metaDescription) missingFields.push({ name: "metaDescription", message: "Meta description is required" });
       if (!slug) missingFields.push({ name: "slug", message: "Slug is required" });
       if (!bgImage) missingFields.push({ name: "bgImage", message: "bgImage is required" });
@@ -49,6 +51,7 @@ const createProduct = async (req, res) => {
       title,
       description,
       short_description,
+      metaTitle,
       metaDescription,
       slug,
       bgImage,
@@ -73,6 +76,7 @@ const updateProduct = async (req, res) => {
       description,
       short_description,
       metaDescription,
+      metaTitle,
       slug,
       bgImage,
       published,
@@ -98,6 +102,7 @@ const updateProduct = async (req, res) => {
       if (!description) missingFields.push({ name: "description", message: "Description is required" });
       if (!metaDescription) missingFields.push({ name: "metaDescription", message: "Meta description is required" });
       if (!slug) missingFields.push({ name: "slug", message: "Slug is required" });
+       if (!metaTitle) missingFields.push({ name: "metaTitle", message: "Meta title is required" });
       if (!bgImage) missingFields.push({ name: "bgImage", message: "bgImage is required" });
       if (!icon) missingFields.push({ name: "icon", message: "icon is required" });
     }
@@ -161,6 +166,7 @@ const updateProduct = async (req, res) => {
     product.title = title ?? product.title;
     product.description = description ?? product.description;
     product.short_description = short_description ?? product.short_description;
+    product.metaTitle = metaTitle ?? product.metaTitle;
     product.metaDescription = metaDescription ?? product.metaDescription;
     product.slug = slug ?? product.slug;
     product.bgImage = bgImage ?? product.bgImage;

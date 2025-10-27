@@ -8,6 +8,7 @@ const ProductSchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String },
     short_description: { type: String },
+    metaTitle: { type: String },
     metaDescription: { type: String, maxlength: 160, trim: true },
     slug: { type: String, unique: true },
     bgImage: { type: String },

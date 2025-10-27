@@ -77,7 +77,7 @@ const CreateLeads = async (req, res) => {
     return res.status(201).json({
       status: 201,
       emailres,
-      message: "Request Sent Successfully",
+      message: "Message Sent Successfully",
     });
   } catch (err) {
     console.error(err);
